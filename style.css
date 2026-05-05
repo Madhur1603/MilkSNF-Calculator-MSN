@@ -1,0 +1,133 @@
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(42, 47, 54);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    background-color: #7fffd4;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: bold;
+    font-size: 19px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.ctnt_box {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    font-size: 20px;
+    width: 100%;
+    background-color: white;
+    font-weight: 500;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    background-color: #f9f9f9;
+    font-weight: 500;
+}
+
+option {
+    font-size: 14px;
+    padding: 5px;
+    background: #5c5c5c;
+    color: #fff;
+}
+
+.btn {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+button {
+    flex: 1;
+    padding: 10px;
+    background-color: #23293b;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    margin: 4px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #151925;
+    color: #80dff0;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.result-row span,
+.result-row strong {
+    font-size: 20px;
+    color: #222;
+    font-weight: 500;
+}
+
+.result-row strong {
+    font-weight: bold;
+}
+
+@media (max-width: 500px) {
+    .row {
+        flex-direction: column;
+    }
+    .btn {
+        flex-direction: column;
+    }
+}
+/* Again */
