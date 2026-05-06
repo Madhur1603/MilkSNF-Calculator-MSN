@@ -1,69 +1,33 @@
-let siteActive = true; // ✅ allow instant usage
-
-const CURRENT_VERSION = 1;
-const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
-
-
 // =======================
-// 🔐 STATUS CHECK (RUNS IN BACKGROUND)
+// 🔁 DAILY RELOAD AT 12 PM
 // =======================
-fetch("status.json?v=" + Date.now())
-    .then(res => res.json())
-    .then(data => {
-        if (!data.active || (data.version && data.version !== CURRENT_VERSION)) {
-            siteActive = false;
-            document.body.innerHTML = `
-                <h2 style='text-align:center;margin-top:50px;'>
-                    ${data.message || "This tool is no longer available."}
-                </h2>`;
-        }
-    })
-    .catch(() => {
-        console.warn("Status check failed. Allowing usage.");
-        siteActive = true; // ✅ never block on error
-    });
 
+function scheduleDailyReload() {
+    const now = new Date();
 
-// =======================
-// ⏳ SESSION MANAGEMENT (24 HOURS)
-// =======================
-function initSession() {
-    let expiry = localStorage.getItem("expiryTime");
+    const nextReload = new Date();
+    nextReload.setHours(12, 0, 0, 0); // 12:00 PM today
 
-    if (!expiry) {
-        expiry = Date.now() + SESSION_DURATION;
-        localStorage.setItem("expiryTime", expiry);
+    // If it's already past 12 PM, schedule for tomorrow
+    if (now > nextReload) {
+        nextReload.setDate(nextReload.getDate() + 1);
     }
+
+    const timeUntilReload = nextReload - now;
+
+    setTimeout(() => {
+        location.reload();
+    }, timeUntilReload);
 }
 
-function checkSession() {
-    const expiry = localStorage.getItem("expiryTime");
-
-    if (expiry && Date.now() > parseInt(expiry)) {
-        // ✅ Ask instead of forcing
-        const reloadNow = confirm("Session expired. Reload now for fresh data?");
-        
-        if (reloadNow) {
-            localStorage.removeItem("expiryTime");
-            location.reload();
-        } else {
-            // extend session slightly (avoid spam popup)
-            const newExpiry = Date.now() + (10 * 60 * 1000); // +10 mins
-            localStorage.setItem("expiryTime", newExpiry);
-        }
-    }
-}
+// Start the timer
+scheduleDailyReload();
 
 
 // =======================
 // 🧮 CALCULATOR FUNCTION
 // =======================
 function calc() {
-
-    if (!siteActive) {
-        alert("This tool is disabled.");
-        return;
-    }
     
     const snf = parseFloat(document.getElementById('snf').value);
     const fat = parseFloat(document.getElementById('fat').value);
@@ -122,9 +86,6 @@ function calc() {
 // 🔄 REFRESH FUNCTION
 // =======================
 function refresh() {
-
-    if (!siteActive) return;
-    
     const inputElements = document.querySelectorAll('.ctnt_box');
     inputElements.forEach(input => input.value = '');
     
@@ -152,10 +113,3 @@ function handleRefreshKey(event) {
         document.getElementById('milk').focus();
     }
 }
-
-
-// =======================
-// 🚀 INIT
-// =======================
-initSession();
-setInterval(checkSession, 60000); // every 1 min
