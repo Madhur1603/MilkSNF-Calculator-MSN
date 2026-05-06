@@ -1,28 +1,63 @@
-let siteActive = true;
+let siteActive = true; // ✅ allow instant usage
 
 const CURRENT_VERSION = 1;
+const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
-// Fetch status.json
-fetch("status.json")
+
+// =======================
+// 🔐 STATUS CHECK (RUNS IN BACKGROUND)
+// =======================
+fetch("status.json?v=" + Date.now())
     .then(res => res.json())
     .then(data => {
         if (!data.active || (data.version && data.version !== CURRENT_VERSION)) {
             siteActive = false;
-            document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px;'>This tool is no longer available.</h2>";
+            document.body.innerHTML = `
+                <h2 style='text-align:center;margin-top:50px;'>
+                    ${data.message || "This tool is no longer available."}
+                </h2>`;
         }
     })
     .catch(() => {
-        siteActive = false;
-        document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px;'>Error loading site.</h2>";
+        console.warn("Status check failed. Allowing usage.");
+        siteActive = true; // ✅ never block on error
     });
 
-// Auto expire after 2 minutes
 
-setTimeout(() => {
-    siteActive = false;
-    document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px;'>Session expired. Please reload.</h2>";
-}, 120000);
+// =======================
+// ⏳ SESSION MANAGEMENT (24 HOURS)
+// =======================
+function initSession() {
+    let expiry = localStorage.getItem("expiryTime");
 
+    if (!expiry) {
+        expiry = Date.now() + SESSION_DURATION;
+        localStorage.setItem("expiryTime", expiry);
+    }
+}
+
+function checkSession() {
+    const expiry = localStorage.getItem("expiryTime");
+
+    if (expiry && Date.now() > parseInt(expiry)) {
+        // ✅ Ask instead of forcing
+        const reloadNow = confirm("Session expired. Reload now for fresh data?");
+        
+        if (reloadNow) {
+            localStorage.removeItem("expiryTime");
+            location.reload();
+        } else {
+            // extend session slightly (avoid spam popup)
+            const newExpiry = Date.now() + (10 * 60 * 1000); // +10 mins
+            localStorage.setItem("expiryTime", newExpiry);
+        }
+    }
+}
+
+
+// =======================
+// 🧮 CALCULATOR FUNCTION
+// =======================
 function calc() {
 
     if (!siteActive) {
@@ -64,13 +99,9 @@ function calc() {
         fatValue = Math.floor(fatPerKg * fatPerKgRate * 100) / 100;
     }
 
-    // Total Value
     totalValue = powderValue + fatValue;
 
-    // Remove decimal part from total value
     let totalValueInteger = Math.floor(totalValue);
-
-    // Average rate calculation
     avgRate = totalValueInteger / milk;
 
     document.getElementById('snfPerKgRate').textContent = snfPerKgRate.toFixed(2);
@@ -78,21 +109,24 @@ function calc() {
     document.getElementById('fatPerKgRate').textContent = fatPerKgRate.toFixed(2);
     document.getElementById('fatValue').textContent = fatValue.toFixed(2);
     document.getElementById('totalValue').textContent = totalValue.toFixed(2);
-    let avgRateDisplay = Math.floor(avgRate * 100) / 100;
-    document.getElementById('avgRate').textContent = avgRateDisplay.toFixed(2);    
-    document.querySelector('.result').style.display = 'block';
 
+    let avgRateDisplay = Math.floor(avgRate * 100) / 100;
+    document.getElementById('avgRate').textContent = avgRateDisplay.toFixed(2);
+
+    document.querySelector('.result').style.display = 'block';
     document.getElementById('refreshBtn').focus();
 }
 
+
+// =======================
+// 🔄 REFRESH FUNCTION
+// =======================
 function refresh() {
 
     if (!siteActive) return;
     
     const inputElements = document.querySelectorAll('.ctnt_box');
-    inputElements.forEach(input => {
-        input.value = '';
-    });
+    inputElements.forEach(input => input.value = '');
     
     document.getElementById('method').value = '60/40';
     document.querySelector('.result').style.display = 'none';
@@ -100,14 +134,14 @@ function refresh() {
 }
 
 
-
+// =======================
+// ⌨️ UX HELPERS
+// =======================
 function moveCursor(event, nextElementId) {
     if (event.key === "Enter") {
         event.preventDefault();
         const nextElement = document.getElementById(nextElementId);
-        if (nextElement) {
-            nextElement.focus();
-        }
+        if (nextElement) nextElement.focus();
     }
 }
 
@@ -118,3 +152,10 @@ function handleRefreshKey(event) {
         document.getElementById('milk').focus();
     }
 }
+
+
+// =======================
+// 🚀 INIT
+// =======================
+initSession();
+setInterval(checkSession, 60000); // every 1 min
