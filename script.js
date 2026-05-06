@@ -1,3 +1,11 @@
+fetch("status.json?v=" + Date.now())
+  .then(res => res.json())
+  .then(data => {
+    if (!data.active) {
+      document.body.innerHTML = "<h2>Service Disabled</h2>";
+    }
+  });
+
 // =======================
 // 🔁 DAILY RELOAD AT 12 PM
 // =======================
