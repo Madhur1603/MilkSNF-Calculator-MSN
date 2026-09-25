@@ -94,11 +94,19 @@ function calc() {
 // 🔄 REFRESH FUNCTION
 // =======================
 function refresh() {
-    const inputElements = document.querySelectorAll('.ctnt_box');
-    inputElements.forEach(input => input.value = '');
-    
+    // Clear only Milk, Fat and SNF
+    // Rate is intentionally kept unchanged
+    document.getElementById('milk').value = '';
+    document.getElementById('fat').value = '';
+    document.getElementById('snf').value = '';
+
+    // Reset SNF Method
     document.getElementById('method').value = '60/40';
+
+    // Hide previous results
     document.querySelector('.result').style.display = 'none';
+
+    // Focus on Milk for the next entry
     document.getElementById('milk').focus();
 }
 
