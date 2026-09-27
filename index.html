@@ -17,35 +17,39 @@
         <!-- =========================
              NAVBAR
         ========================== -->
+
         <nav class="navbar">
 
             <button
                 class="nav-btn active"
-                id="milkCalcNav"
-                onclick="showCalculator('milk')">
-                Milk Calculator
+                id="doodhiyaNav"
+                onclick="showCalculator('doodhiya')">
+                Doodhiya
             </button>
 
             <button
                 class="nav-btn"
-                id="snfCalcNav"
-                onclick="showCalculator('snf')">
-                Find SNF
+                id="thekedaarNav"
+                onclick="showCalculator('thekedaar')">
+                Thekedaar
             </button>
 
         </nav>
 
 
         <!-- =========================
-             MILK CALCULATOR
+             DOODHIYA CALCULATOR
         ========================== -->
+
         <div
-            id="milkCalculator"
+            id="doodhiyaCalculator"
             class="calculator-section">
 
-            <h2>Milk Value Calculator</h2>
+            <h2>Doodhiya</h2>
+
 
             <!-- Quantity + Fat -->
+
             <div class="row">
 
                 <div class="input-group">
@@ -85,6 +89,7 @@
 
 
             <!-- SNF + Rate -->
+
             <div class="row">
 
                 <div class="input-group">
@@ -99,7 +104,7 @@
                         class="ctnt_box"
                         placeholder="SNF (%)"
                         step="0.01"
-                        onkeydown="moveCursor(event, 'method')">
+                        onkeydown="moveCursor(event, 'rate')">
 
                 </div>
 
@@ -115,14 +120,16 @@
                         id="rate"
                         class="ctnt_box"
                         placeholder="Rate"
-                        step="0.01">
+                        step="0.01"
+                        onkeydown="moveCursor(event, 'method')">
 
                 </div>
 
             </div>
 
 
-            <!-- SNF Method -->
+            <!-- Method -->
+
             <div class="row">
 
                 <div class="input-group full-width">
@@ -151,10 +158,11 @@
 
 
             <!-- Buttons -->
+
             <div class="btn">
 
                 <button
-                    onclick="calc()"
+                    onclick="calcDoodhiya()"
                     id="calculate">
 
                     Calculate
@@ -163,9 +171,9 @@
 
 
                 <button
-                    onclick="refresh()"
+                    onclick="refreshDoodhiya()"
                     id="refreshBtn"
-                    onkeydown="handleRefreshKey(event)">
+                    onkeydown="handleDoodhiyaRefreshKey(event)">
 
                     Refresh
 
@@ -174,10 +182,11 @@
             </div>
 
 
-            <!-- Milk Results -->
+            <!-- Results -->
+
             <div
                 class="result"
-                id="milkResult"
+                id="doodhiyaResult"
                 style="display: none;">
 
                 <div class="result-row">
@@ -186,7 +195,7 @@
                         SNF per Kg Rate:
                     </span>
 
-                    <span id="snfPerKgRate">
+                    <span id="doodhiyaSnfPerKgRate">
                         --
                     </span>
 
@@ -199,7 +208,7 @@
                         Fat per Kg Rate:
                     </span>
 
-                    <span id="fatPerKgRate">
+                    <span id="doodhiyaFatPerKgRate">
                         --
                     </span>
 
@@ -212,7 +221,7 @@
                         Value of Powder:
                     </span>
 
-                    <span id="powderValue">
+                    <span id="doodhiyaPowderValue">
                         --
                     </span>
 
@@ -225,7 +234,7 @@
                         Value of Fat:
                     </span>
 
-                    <span id="fatValue">
+                    <span id="doodhiyaFatValue">
                         --
                     </span>
 
@@ -238,7 +247,7 @@
                         Total Value:
                     </strong>
 
-                    <strong id="totalValue">
+                    <strong id="doodhiyaTotalValue">
                         --
                     </strong>
 
@@ -251,7 +260,7 @@
                         Average Rate:
                     </strong>
 
-                    <strong id="avgRate">
+                    <strong id="doodhiyaAvgRate">
                         --
                     </strong>
 
@@ -262,57 +271,122 @@
         </div>
 
 
+
         <!-- =========================
-             FIND SNF CALCULATOR
+             THEKEDAAR CALCULATOR
         ========================== -->
+
         <div
-            id="snfCalculator"
+            id="thekedaarCalculator"
             class="calculator-section"
             style="display: none;">
 
-            <h2>
-                Find SNF Using CLR
-            </h2>
+            <h2>Thekedaar</h2>
 
 
-            <!-- Fat -->
+            <!-- Quantity + Fat -->
+
             <div class="row">
 
-                <div class="input-group full-width">
+                <div class="input-group">
 
-                    <label for="clrFat">
+                    <label for="thekedaarMilk">
+                        Quantity:
+                    </label>
+
+                    <input
+                        type="number"
+                        id="thekedaarMilk"
+                        class="ctnt_box"
+                        placeholder="Milk Quantity (L)"
+                        step="0.01"
+                        onkeydown="moveCursor(event, 'thekedaarFat')">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="thekedaarFat">
                         Fat:
                     </label>
 
                     <input
                         type="number"
-                        id="clrFat"
+                        id="thekedaarFat"
                         class="ctnt_box"
                         placeholder="Fat (%)"
                         step="0.01"
-                        onkeydown="moveCursor(event, 'clr')">
+                        onkeydown="moveCursor(event, 'thekedaarClr')">
 
                 </div>
 
             </div>
 
 
-            <!-- CLR -->
+            <!-- CLR + Rate -->
+
             <div class="row">
 
-                <div class="input-group full-width">
+                <div class="input-group">
 
-                    <label for="clr">
+                    <label for="thekedaarClr">
                         CLR:
                     </label>
 
                     <input
                         type="number"
-                        id="clr"
+                        id="thekedaarClr"
                         class="ctnt_box"
                         placeholder="CLR"
                         step="0.01"
-                        onkeydown="moveCursor(event, 'findSnfBtn')">
+                        onkeydown="moveCursor(event, 'thekedaarRate')">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="thekedaarRate">
+                        Rate:
+                    </label>
+
+                    <input
+                        type="number"
+                        id="thekedaarRate"
+                        class="ctnt_box"
+                        placeholder="Rate"
+                        step="0.01"
+                        onkeydown="moveCursor(event, 'thekedaarMethod')">
+
+                </div>
+
+            </div>
+
+
+            <!-- Method -->
+
+            <div class="row">
+
+                <div class="input-group full-width">
+
+                    <label for="thekedaarMethod">
+                        SNF Method:
+                    </label>
+
+                    <select
+                        id="thekedaarMethod"
+                        onkeydown="moveCursor(event, 'thekedaarCalculate')">
+
+                        <option value="60/40">
+                            60/40
+                        </option>
+
+                        <option value="52/48">
+                            52/48
+                        </option>
+
+                    </select>
 
                 </div>
 
@@ -320,21 +394,22 @@
 
 
             <!-- Buttons -->
+
             <div class="btn">
 
                 <button
-                    onclick="findSNF()"
-                    id="findSnfBtn">
+                    onclick="calcThekedaar()"
+                    id="thekedaarCalculate">
 
-                    Find SNF
+                    Calculate
 
                 </button>
 
 
                 <button
-                    onclick="refreshSNF()"
-                    id="refreshSnfBtn"
-                    onkeydown="handleSNFRefreshKey(event)">
+                    onclick="refreshThekedaar()"
+                    id="thekedaarRefreshBtn"
+                    onkeydown="handleThekedaarRefreshKey(event)">
 
                     Refresh
 
@@ -343,19 +418,36 @@
             </div>
 
 
-            <!-- SNF Results -->
+            <!-- Results -->
+
             <div
                 class="result"
-                id="snfResult"
+                id="thekedaarResult"
                 style="display: none;">
 
+
+                <!-- Calculated SNF -->
+
+                <div class="result-row">
+
+                    <strong>
+                        Calculated SNF:
+                    </strong>
+
+                    <strong id="thekedaarCalculatedSnf">
+                        --
+                    </strong>
+
+                </div>
+
+
                 <div class="result-row">
 
                     <span>
-                        Fat × 0.2:
+                        SNF per Kg Rate:
                     </span>
 
-                    <span id="fatComponent">
+                    <span id="thekedaarSnfPerKgRate">
                         --
                     </span>
 
@@ -365,10 +457,10 @@
                 <div class="result-row">
 
                     <span>
-                        CLR ÷ 4:
+                        Fat per Kg Rate:
                     </span>
 
-                    <span id="clrComponent">
+                    <span id="thekedaarFatPerKgRate">
                         --
                     </span>
 
@@ -378,11 +470,24 @@
                 <div class="result-row">
 
                     <span>
-                        Constant:
+                        Value of Powder:
                     </span>
 
+                    <span id="thekedaarPowderValue">
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="result-row">
+
                     <span>
-                        0.14
+                        Value of Fat:
+                    </span>
+
+                    <span id="thekedaarFatValue">
+                        --
                     </span>
 
                 </div>
@@ -391,10 +496,23 @@
                 <div class="result-row">
 
                     <strong>
-                        Calculated SNF:
+                        Total Value:
                     </strong>
 
-                    <strong id="calculatedSnf">
+                    <strong id="thekedaarTotalValue">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="result-row">
+
+                    <strong>
+                        Average Rate:
+                    </strong>
+
+                    <strong id="thekedaarAvgRate">
                         --
                     </strong>
 
