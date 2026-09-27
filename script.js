@@ -43,9 +43,6 @@ function scheduleDailyReload() {
     );
 
 
-    // If 12 PM has already passed,
-    // schedule reload for tomorrow.
-
     if (now > nextReload) {
 
         nextReload.setDate(
@@ -68,53 +65,57 @@ function scheduleDailyReload() {
 }
 
 
-// Start daily reload timer
 scheduleDailyReload();
 
 
 
 // ======================================================
-// SWITCH BETWEEN CALCULATORS
+// SWITCH BETWEEN DOODHIYA / THEKEDAAR
+// ======================================================
+//
+// This function is also used by the navbar.
+// The main keyboard transition is Shift.
+//
 // ======================================================
 
 function showCalculator(type) {
 
-    const milkCalculator =
+    const doodhiyaCalculator =
         document.getElementById(
-            "milkCalculator"
+            "doodhiyaCalculator"
         );
 
-    const snfCalculator =
+    const thekedaarCalculator =
         document.getElementById(
-            "snfCalculator"
-        );
-
-
-    const milkNav =
-        document.getElementById(
-            "milkCalcNav"
-        );
-
-    const snfNav =
-        document.getElementById(
-            "snfCalcNav"
+            "thekedaarCalculator"
         );
 
 
-    if (type === "milk") {
+    const doodhiyaNav =
+        document.getElementById(
+            "doodhiyaNav"
+        );
 
-        milkCalculator.style.display =
+    const thekedaarNav =
+        document.getElementById(
+            "thekedaarNav"
+        );
+
+
+    if (type === "doodhiya") {
+
+        doodhiyaCalculator.style.display =
             "block";
 
-        snfCalculator.style.display =
+        thekedaarCalculator.style.display =
             "none";
 
 
-        milkNav.classList.add(
+        doodhiyaNav.classList.add(
             "active"
         );
 
-        snfNav.classList.remove(
+        thekedaarNav.classList.remove(
             "active"
         );
 
@@ -126,26 +127,26 @@ function showCalculator(type) {
     }
 
 
-    else if (type === "snf") {
+    else if (type === "thekedaar") {
 
-        milkCalculator.style.display =
+        doodhiyaCalculator.style.display =
             "none";
 
-        snfCalculator.style.display =
+        thekedaarCalculator.style.display =
             "block";
 
 
-        milkNav.classList.remove(
+        doodhiyaNav.classList.remove(
             "active"
         );
 
-        snfNav.classList.add(
+        thekedaarNav.classList.add(
             "active"
         );
 
 
         document.getElementById(
-            "clrFat"
+            "thekedaarMilk"
         ).focus();
 
     }
@@ -155,67 +156,22 @@ function showCalculator(type) {
 
 
 // ======================================================
-// MILK VALUE CALCULATOR
+// COMMON MILK VALUE CALCULATION
+// ======================================================
+//
+// IMPORTANT:
+// The original calculation formulas are kept exactly
+// the same as your previous calculator.
+//
 // ======================================================
 
-function calc() {
-
-    const snf =
-        parseFloat(
-            document.getElementById(
-                "snf"
-            ).value
-        );
-
-
-    const fat =
-        parseFloat(
-            document.getElementById(
-                "fat"
-            ).value
-        );
-
-
-    const rate =
-        parseFloat(
-            document.getElementById(
-                "rate"
-            ).value
-        );
-
-
-    const milk =
-        parseFloat(
-            document.getElementById(
-                "milk"
-            ).value
-        );
-
-
-    const method =
-        document.getElementById(
-            "method"
-        ).value;
-
-
-
-    // Validate inputs
-
-    if (
-        isNaN(snf) ||
-        isNaN(fat) ||
-        isNaN(rate) ||
-        isNaN(milk)
-    ) {
-
-        alert(
-            "Please enter all values"
-        );
-
-        return;
-
-    }
-
+function calculateMilkValue(
+    milk,
+    fat,
+    snf,
+    rate,
+    method
+) {
 
     let snfPerKg;
     let snfPerKgRate;
@@ -231,26 +187,20 @@ function calc() {
 
 
     // ==================================================
-    // 60 / 40 METHOD
+    // 60 / 40
     // ==================================================
 
     if (method === "60/40") {
 
         snfPerKg =
             Math.floor(
-                milk *
-                snf /
-                100 *
-                100
+                milk * snf / 100 * 100
             ) / 100;
 
 
         snfPerKgRate =
             Math.floor(
-                rate *
-                40 /
-                8.5 *
-                100
+                rate * 40 / 8.5 * 100
             ) / 100;
 
 
@@ -264,19 +214,13 @@ function calc() {
 
         fatPerKg =
             Math.floor(
-                fat *
-                milk /
-                100 *
-                100
+                fat * milk / 100 * 100
             ) / 100;
 
 
         fatPerKgRate =
             Math.floor(
-                rate *
-                60 /
-                6.5 *
-                100
+                rate * 60 / 6.5 * 100
             ) / 100;
 
 
@@ -290,28 +234,21 @@ function calc() {
     }
 
 
-
     // ==================================================
-    // 52 / 48 METHOD
+    // 52 / 48
     // ==================================================
 
     else if (method === "52/48") {
 
         snfPerKg =
             Math.floor(
-                milk *
-                snf /
-                100 *
-                100
+                milk * snf / 100 * 100
             ) / 100;
 
 
         snfPerKgRate =
             Math.floor(
-                rate *
-                48 /
-                9 *
-                100
+                rate * 48 / 9 * 100
             ) / 100;
 
 
@@ -325,19 +262,13 @@ function calc() {
 
         fatPerKg =
             Math.floor(
-                fat *
-                milk /
-                100 *
-                100
+                fat * milk / 100 * 100
             ) / 100;
 
 
         fatPerKgRate =
             Math.floor(
-                rate *
-                52 /
-                6.5 *
-                100
+                rate * 52 / 6.5 * 100
             ) / 100;
 
 
@@ -361,8 +292,6 @@ function calc() {
         fatValue;
 
 
-    // Existing calculation behavior preserved
-
     let totalValueInteger =
         Math.floor(
             totalValue
@@ -374,66 +303,166 @@ function calc() {
         milk;
 
 
+    let avgRateDisplay =
+        Math.floor(
+            avgRate * 100
+        ) / 100;
+
+
+
+    return {
+
+        snfPerKgRate:
+            snfPerKgRate,
+
+        fatPerKgRate:
+            fatPerKgRate,
+
+        powderValue:
+            powderValue,
+
+        fatValue:
+            fatValue,
+
+        totalValue:
+            totalValue,
+
+        avgRate:
+            avgRateDisplay
+
+    };
+
+}
+
+
+
+// ======================================================
+// DOODHIYA CALCULATOR
+// ======================================================
+
+function calcDoodhiya() {
+
+    const milk =
+        parseFloat(
+            document.getElementById(
+                "milk"
+            ).value
+        );
+
+
+    const fat =
+        parseFloat(
+            document.getElementById(
+                "fat"
+            ).value
+        );
+
+
+    const snf =
+        parseFloat(
+            document.getElementById(
+                "snf"
+            ).value
+        );
+
+
+    const rate =
+        parseFloat(
+            document.getElementById(
+                "rate"
+            ).value
+        );
+
+
+    const method =
+        document.getElementById(
+            "method"
+        ).value;
+
+
+
+    // Validate
+
+    if (
+        isNaN(milk) ||
+        isNaN(fat) ||
+        isNaN(snf) ||
+        isNaN(rate)
+    ) {
+
+        alert(
+            "Please enter all values"
+        );
+
+        return;
+
+    }
+
+
+
+    // Perform original calculation
+
+    const result =
+        calculateMilkValue(
+            milk,
+            fat,
+            snf,
+            rate,
+            method
+        );
+
+
 
     // ==================================================
     // DISPLAY RESULTS
     // ==================================================
 
     document.getElementById(
-        "snfPerKgRate"
+        "doodhiyaSnfPerKgRate"
     ).textContent =
-        snfPerKgRate.toFixed(2);
+        result.snfPerKgRate.toFixed(2);
 
 
     document.getElementById(
-        "powderValue"
+        "doodhiyaFatPerKgRate"
     ).textContent =
-        powderValue.toFixed(2);
+        result.fatPerKgRate.toFixed(2);
 
 
     document.getElementById(
-        "fatPerKgRate"
+        "doodhiyaPowderValue"
     ).textContent =
-        fatPerKgRate.toFixed(2);
+        result.powderValue.toFixed(2);
 
 
     document.getElementById(
-        "fatValue"
+        "doodhiyaFatValue"
     ).textContent =
-        fatValue.toFixed(2);
+        result.fatValue.toFixed(2);
 
 
     document.getElementById(
-        "totalValue"
+        "doodhiyaTotalValue"
     ).textContent =
-        totalValue.toFixed(2);
-
-
-
-    let avgRateDisplay =
-        Math.floor(
-            avgRate *
-            100
-        ) / 100;
+        result.totalValue.toFixed(2);
 
 
     document.getElementById(
-        "avgRate"
+        "doodhiyaAvgRate"
     ).textContent =
-        avgRateDisplay.toFixed(2);
+        result.avgRate.toFixed(2);
 
 
 
     // Show result
 
     document.getElementById(
-        "milkResult"
+        "doodhiyaResult"
     ).style.display =
         "block";
 
 
-    // After calculation,
-    // focus Refresh
+    // Move to Refresh
 
     document.getElementById(
         "refreshBtn"
@@ -444,52 +473,40 @@ function calc() {
 
 
 // ======================================================
-// MILK CALCULATOR REFRESH
+// DOODHIYA REFRESH
 // ======================================================
 
-function refresh() {
-
-    // Clear Milk
+function refreshDoodhiya() {
 
     document.getElementById(
         "milk"
     ).value = "";
 
 
-    // Clear Fat
-
     document.getElementById(
         "fat"
     ).value = "";
 
-
-    // Clear SNF
 
     document.getElementById(
         "snf"
     ).value = "";
 
 
-    // IMPORTANT:
-    // Rate is intentionally NOT cleared
+    // Rate intentionally remains unchanged.
 
-
-    // Reset SNF method
 
     document.getElementById(
         "method"
-    ).value = "60/40";
+    ).value =
+        "60/40";
 
-
-    // Hide previous results
 
     document.getElementById(
-        "milkResult"
+        "doodhiyaResult"
     ).style.display =
         "none";
 
-
-    // Focus Milk for next entry
 
     document.getElementById(
         "milk"
@@ -500,21 +517,52 @@ function refresh() {
 
 
 // ======================================================
-// FIND SNF USING FAT + CLR
+// DOODHIYA REFRESH ENTER
+// ======================================================
+
+function handleDoodhiyaRefreshKey(event) {
+
+    if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        refreshDoodhiya();
+
+    }
+
+}
+
+
+
+// ======================================================
+// THEKEDAAR CALCULATOR
 // ======================================================
 //
-// Formula:
+// Step 1:
 //
 // SNF = (Fat × 0.2) + (CLR ÷ 4) + 0.14
 //
+// Step 2:
+//
+// Use that SNF in the exact same milk-value
+// calculation used by Doodhiya.
+//
 // ======================================================
 
-function findSNF() {
+function calcThekedaar() {
+
+    const milk =
+        parseFloat(
+            document.getElementById(
+                "thekedaarMilk"
+            ).value
+        );
+
 
     const fat =
         parseFloat(
             document.getElementById(
-                "clrFat"
+                "thekedaarFat"
             ).value
         );
 
@@ -522,21 +570,37 @@ function findSNF() {
     const clr =
         parseFloat(
             document.getElementById(
-                "clr"
+                "thekedaarClr"
             ).value
         );
+
+
+    const rate =
+        parseFloat(
+            document.getElementById(
+                "thekedaarRate"
+            ).value
+        );
+
+
+    const method =
+        document.getElementById(
+            "thekedaarMethod"
+        ).value;
 
 
 
     // Validate
 
     if (
+        isNaN(milk) ||
         isNaN(fat) ||
-        isNaN(clr)
+        isNaN(clr) ||
+        isNaN(rate)
     ) {
 
         alert(
-            "Please enter both Fat and CLR"
+            "Please enter all values"
         );
 
         return;
@@ -546,7 +610,7 @@ function findSNF() {
 
 
     // ==================================================
-    // CALCULATION
+    // CONVERT CLR TO SNF
     // ==================================================
 
     const fatComponent =
@@ -561,7 +625,7 @@ function findSNF() {
         0.14;
 
 
-    const snf =
+    const calculatedSnf =
         fatComponent +
         clrComponent +
         constant;
@@ -569,41 +633,85 @@ function findSNF() {
 
 
     // ==================================================
-    // DISPLAY BREAKDOWN
+    // NOW USE CALCULATED SNF
+    // IN THE ORIGINAL CALCULATION
+    // ==================================================
+
+    const result =
+        calculateMilkValue(
+            milk,
+            fat,
+            calculatedSnf,
+            rate,
+            method
+        );
+
+
+
+    // ==================================================
+    // DISPLAY CALCULATED SNF
     // ==================================================
 
     document.getElementById(
-        "fatComponent"
+        "thekedaarCalculatedSnf"
     ).textContent =
-        fatComponent.toFixed(2);
+        calculatedSnf.toFixed(2);
+
+
+
+    // ==================================================
+    // DISPLAY COMPLETE RESULT
+    // ==================================================
+
+    document.getElementById(
+        "thekedaarSnfPerKgRate"
+    ).textContent =
+        result.snfPerKgRate.toFixed(2);
 
 
     document.getElementById(
-        "clrComponent"
+        "thekedaarFatPerKgRate"
     ).textContent =
-        clrComponent.toFixed(2);
+        result.fatPerKgRate.toFixed(2);
 
 
     document.getElementById(
-        "calculatedSnf"
+        "thekedaarPowderValue"
     ).textContent =
-        snf.toFixed(2);
+        result.powderValue.toFixed(2);
+
+
+    document.getElementById(
+        "thekedaarFatValue"
+    ).textContent =
+        result.fatValue.toFixed(2);
+
+
+    document.getElementById(
+        "thekedaarTotalValue"
+    ).textContent =
+        result.totalValue.toFixed(2);
+
+
+    document.getElementById(
+        "thekedaarAvgRate"
+    ).textContent =
+        result.avgRate.toFixed(2);
 
 
 
     // Show result
 
     document.getElementById(
-        "snfResult"
+        "thekedaarResult"
     ).style.display =
         "block";
 
 
-    // After calculation,
-    // move to Refresh button
+    // Move to Refresh
 
     document.getElementById(
-        "refreshSnfBtn"
+        "thekedaarRefreshBtn"
     ).focus();
 
 }
@@ -611,54 +719,60 @@ function findSNF() {
 
 
 // ======================================================
-// FIND SNF REFRESH
+// THEKEDAAR REFRESH
 // ======================================================
 
-function refreshSNF() {
+function refreshThekedaar() {
+
+    // Clear Quantity
+    document.getElementById(
+        "thekedaarMilk"
+    ).value = "";
 
     // Clear Fat
-
     document.getElementById(
-        "clrFat"
+        "thekedaarFat"
     ).value = "";
-
 
     // Clear CLR
-
     document.getElementById(
-        "clr"
+        "thekedaarClr"
     ).value = "";
 
-
-    // Hide previous result
-
+    // Clear Rate
     document.getElementById(
-        "snfResult"
-    ).style.display =
-        "none";
+        "thekedaarRate"
+    ).value = "";
 
-
-    // Focus Fat for next calculation
-
+    // Reset SNF Method
     document.getElementById(
-        "clrFat"
+        "thekedaarMethod"
+    ).value = "60/40";
+
+    // Hide previous results
+    document.getElementById(
+        "thekedaarResult"
+    ).style.display = "none";
+
+    // Focus Quantity for next entry
+    document.getElementById(
+        "thekedaarMilk"
     ).focus();
-
 }
 
 
 
 // ======================================================
-// ENTER KEY ON MILK REFRESH
+// THEKEDAAR REFRESH ENTER
 // ======================================================
 
-function handleRefreshKey(event) {
+function handleThekedaarRefreshKey(event) {
 
     if (event.key === "Enter") {
 
         event.preventDefault();
 
-        refresh();
+        refreshThekedaar();
 
     }
 
@@ -667,25 +781,7 @@ function handleRefreshKey(event) {
 
 
 // ======================================================
-// ENTER KEY ON SNF REFRESH
-// ======================================================
-
-function handleSNFRefreshKey(event) {
-
-    if (event.key === "Enter") {
-
-        event.preventDefault();
-
-        refreshSNF();
-
-    }
-
-}
-
-
-
-// ======================================================
-// ENTER KEY NAVIGATION
+// GENERAL ENTER-KEY NAVIGATION
 // ======================================================
 
 function moveCursor(
@@ -717,16 +813,17 @@ function moveCursor(
 
 
 // ======================================================
-// SHIFT KEY TOGGLE
+// SHIFT KEY — SWITCH CALCULATORS
 // ======================================================
 //
-// Press Shift once:
-// Milk Calculator → Find SNF
+// Shift:
+// Doodhiya → Thekedaar
 //
-// Press Shift again:
-// Find SNF → Milk Calculator
+// Shift again:
+// Thekedaar → Doodhiya
 //
-// Holding Shift does NOT repeatedly toggle.
+// Holding Shift does not repeatedly switch.
+//
 // ======================================================
 
 document.addEventListener(
@@ -738,27 +835,29 @@ document.addEventListener(
             !event.repeat
         ) {
 
-            const milkCalculator =
+            const doodhiyaCalculator =
                 document.getElementById(
-                    "milkCalculator"
+                    "doodhiyaCalculator"
                 );
 
 
-            const isMilkCalculatorVisible =
-                milkCalculator.style.display !== "none";
+            const isDoodhiyaVisible =
+                doodhiyaCalculator.style.display !== "none";
 
 
-            if (
-                isMilkCalculatorVisible
-            ) {
+            if (isDoodhiyaVisible) {
 
-                showCalculator("snf");
+                showCalculator(
+                    "thekedaar"
+                );
 
             }
 
             else {
 
-                showCalculator("milk");
+                showCalculator(
+                    "doodhiya"
+                );
 
             }
 
