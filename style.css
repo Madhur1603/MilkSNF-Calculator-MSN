@@ -1,133 +1,437 @@
- * {
+/* ======================================================
+   GLOBAL
+====================================================== */
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
+/* ======================================================
+   BODY
+====================================================== */
+
 body {
+
     background-color: rgb(42, 47, 54);
+
     display: flex;
+
     justify-content: center;
+
     align-items: flex-start;
+
     min-height: 100vh;
+
     padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    font-family:
+        'Segoe UI',
+        Tahoma,
+        Geneva,
+        Verdana,
+        sans-serif;
+
 }
+
+
+/* ======================================================
+   MAIN CONTAINER
+====================================================== */
 
 .container {
+
     width: 100%;
+
     max-width: 450px;
+
     background-color: #7fffd4;
+
     border-radius: 10px;
+
     padding: 25px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+    box-shadow:
+        0 4px 10px
+        rgba(0, 0, 0, 0.3);
+
 }
+
+
+/* ======================================================
+   NAVBAR
+====================================================== */
+
+.navbar {
+
+    display: flex;
+
+    width: 100%;
+
+    background-color: #23293b;
+
+    border-radius: 8px;
+
+    padding: 4px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.nav-btn {
+
+    flex: 1;
+
+    border: none;
+
+    background-color: transparent;
+
+    color: white;
+
+    padding: 10px 8px;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    margin: 0;
+
+    transition: 0.3s;
+
+}
+
+
+.nav-btn:hover {
+
+    background-color: #151925;
+
+    color: #80dff0;
+
+    cursor: pointer;
+
+}
+
+
+.nav-btn.active {
+
+    background-color: #7fffd4;
+
+    color: #23293b;
+
+}
+
+
+
+/* ======================================================
+   HEADINGS
+====================================================== */
 
 h2 {
+
     text-align: center;
+
     margin-bottom: 20px;
+
     color: #222;
+
 }
+
+
+
+/* ======================================================
+   CALCULATOR SECTION
+====================================================== */
+
+.calculator-section {
+
+    width: 100%;
+
+}
+
+
+
+/* ======================================================
+   ROW
+====================================================== */
 
 .row {
+
     display: flex;
+
     gap: 15px;
+
     margin-bottom: 15px;
+
     flex-wrap: wrap;
+
 }
+
+
+
+/* ======================================================
+   INPUT GROUP
+====================================================== */
 
 .input-group {
+
     flex: 1;
+
     display: flex;
+
     flex-direction: column;
+
 }
+
+
+.full-width {
+
+    width: 100%;
+
+    flex: 1 1 100%;
+
+}
+
 
 .input-group label {
+
     font-weight: bold;
+
     font-size: 19px;
+
     margin-bottom: 5px;
+
     color: #333;
+
 }
+
+
+
+/* ======================================================
+   INPUT
+====================================================== */
 
 .ctnt_box {
+
     padding: 8px;
+
     border-radius: 6px;
+
     border: 1px solid #888;
+
     font-size: 20px;
+
     width: 100%;
+
     background-color: white;
+
     font-weight: 500;
+
 }
+
+
+.ctnt_box:focus {
+
+    outline: 2px solid #23293b;
+
+    border-color: #23293b;
+
+}
+
+
+
+/* ======================================================
+   SELECT
+====================================================== */
 
 select {
+
     width: 100%;
+
     padding: 10px;
+
     font-size: 20px;
+
     border-radius: 6px;
+
     border: 1px solid #888;
+
     background-color: #f9f9f9;
+
     font-weight: 500;
+
 }
+
+
+select:focus {
+
+    outline: 2px solid #23293b;
+
+    border-color: #23293b;
+
+}
+
 
 option {
+
     font-size: 14px;
+
     padding: 5px;
+
     background: #5c5c5c;
+
     color: #fff;
+
 }
+
+
+
+/* ======================================================
+   BUTTON CONTAINER
+====================================================== */
 
 .btn {
+
     display: flex;
+
     justify-content: space-between;
+
     margin-top: 15px;
+
 }
+
+
+
+/* ======================================================
+   BUTTONS
+====================================================== */
 
 button {
+
     flex: 1;
+
     padding: 10px;
+
     background-color: #23293b;
+
     border: none;
+
     border-radius: 6px;
+
     color: white;
+
     font-size: 16px;
+
     margin: 4px;
+
     transition: 0.3s;
+
 }
+
 
 button:hover {
+
     background-color: #151925;
+
     color: #80dff0;
+
     cursor: pointer;
+
 }
+
+
+button:focus {
+
+    outline: 2px solid #222;
+
+    outline-offset: 2px;
+
+}
+
+
+
+/* ======================================================
+   RESULTS
+====================================================== */
 
 .result {
+
     margin-top: 20px;
+
 }
 
+
 .result-row {
+
     display: flex;
+
     justify-content: space-between;
+
+    align-items: center;
+
     padding: 8px 0;
-    border-bottom: 1px solid #ccc;
+
+    border-bottom:
+        1px solid #ccc;
+
 }
+
 
 .result-row span,
 .result-row strong {
+
     font-size: 20px;
+
     color: #222;
+
     font-weight: 500;
+
 }
+
 
 .result-row strong {
+
     font-weight: bold;
+
 }
 
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
 @media (max-width: 500px) {
+
     .row {
+
         flex-direction: column;
+
     }
+
+
     .btn {
+
         flex-direction: column;
+
     }
+
+
+    .navbar {
+
+        flex-direction: row;
+
+    }
+
+
+    .nav-btn {
+
+        font-size: 14px;
+
+    }
+
 }
-/* Again */
